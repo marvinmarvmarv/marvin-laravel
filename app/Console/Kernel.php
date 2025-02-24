@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Enums\TaskStatus;
+use App\Events\TaskExpired;
+use App\Models\Task;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +15,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            $tasks = Task::where('deadline', '<', today())
+                ->where('status', '!=', TaskStatus::DONE->value)
+                ->get();
+
+            foreach ($tasks as $task) {
+                event(new TaskExpired($task));
+            }
+        })->dailyAt('00:05');
     }
 
     /**

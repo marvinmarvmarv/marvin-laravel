@@ -1,0 +1,12 @@
+[90m= [39m[34;4mApp\Models\Task[39;24m {#6113
+    [34mid[39m: [35m7[39m,
+    [34mtitle[39m: "[32mOdit officia consequuntur consequuntur et magnam asperiores odit.[39m",
+    [34mdescription[39m: "[32mLaudantium repudiandae et consequatur eius sit. Sapiente et laboriosam animi quia. Facere aut velit fuga modi quaerat dolore ea.[39m",
+    [34mstatus[39m: "[32mtodo[39m",
+    [34mdeadline[39m: "[32m2025-02-05[39m",
+    [34muser_id[39m: [35m3[39m,
+    [34mproject_id[39m: [35m1[39m,
+    [34mcreated_at[39m: "[32m2025-02-20 10:28:07[39m",
+    [34mupdated_at[39m: "[32m2025-02-20 10:28:07[39m",
+  }
+

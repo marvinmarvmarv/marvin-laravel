@@ -1,66 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Aufgaben-Management-System (RESTful API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Dieses Projekt ist eine RESTful API zur Verwaltung von Aufgaben (Tasks), Benutzern (Users) und Projekten (Projects). Die API wurde mit Laravel erstellt und setzt auf Sanctum für die Authentifizierung. Das Projekt umfasst sowohl die Grundprüfung (Basis-Funktionen wie CRUD für Aufgaben) als auch die erweiterte Prüfung (u.a. Rollen, Deadlines, Notifications).
 
-## About Laravel
+1. Projektbeschreibung
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Dieses Projekt stellt eine RESTful API für ein Aufgaben-Management-System bereit.
+Funktionen im Überblick:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    Grundprüfung (Basismodul):
+        CRUD-Operationen für Aufgaben (Tasks).
+        Authentifizierung mittels Laravel Sanctum.
+        Validierung von Eingaben.
+        PHPUnit-Tests.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    Erweiterte Prüfung:
+        Integration von Benutzern (Users) und Projekten (Projects).
+        Beziehung: Ein Benutzer kann mehrere Aufgaben haben, eine Aufgabe gehört zu einem Projekt.
+        Deadline-Feld für Aufgaben und Abfrage überfälliger Tasks.
+        Rollen- und Berechtigungssystem (z.B. Admin-Rolle).
+        Event-Listener und Notification bei abgelaufenen Deadlines.
 
-## Learning Laravel
+2. Systemvoraussetzungen
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+PHP: ^8.1
+Laravel: ^10.10
+MySQL (oder eine kompatible Datenbank)
+Composer (zum Installieren der PHP-Abhängigkeiten)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Repository klonen
+git clone 
 
-## Laravel Sponsors
+Abhängigkeiten installieren
+composer install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+.env-Datei anlegen
+Erstelle eine Kopie der .env.example und benenne sie in .env um.
 
-### Premium Partners
+Applikationsschlüssel generieren
+php artisan key:generate
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Datenbank-Migrationen ausführen
+php artisan migrate
 
-## Contributing
+Seed-Daten einspielen
+php artisan db:seed
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Es wird ein Admin und ein normaler User angelegt.
+User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
 
-## Code of Conduct
+        User::create([
+            'name' => 'User',
+            'email' => 'user@example.com',
+            'password' => Hash::make('password1'),
+            'role' => 'user',
+        ]);
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Über die Login Route 
+http://127.0.0.1:8000/api/login
+wird der Token zurückgegeben.
 
-## Security Vulnerabilities
+Content-Type: application/json
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Konfiguration
 
-## License
+Laravel Sanctum:
+Das Projekt wurde mit Breeze API-only erstellt und nutzt Laravel Sanctum für die Authentifizierung.
+Für reine Token-Authentifizierung (API-Token) kannst du im Regelfall so starten, wie es ist.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Rollen:
+Admin-Rollen und User-Rollen werden in der Datenbank verwaltet. Beim Seeding wird ein Admin-Benutzer erstellt (siehe UserSeeder).
+
+Formatierung:
+Das Project wurde mit Pint formatiert.
+
+5. Funktionen
+
+CRUD-Operationen
+
+    Für User, Task und Project wurden jeweils Resource Controller angelegt.
+
+Query-Opperationen
+
+    Für spezielle Abfragen wurden Single Action Controller angelegt.
+    GetAllExpiredTasks bspw.
+
+Struktur
+
+    Das Projekt hat eine organisierte Schichtenarchitektur:
+        DTO
+        Mapper
+        Model
+        Controller
+        Service
+        Repository und Interface
+        Policy
+        RequestKlassen
+
+
+Beziehungen & Rollen
+
+    Benutzer (User) – kann Aufgabe/n haben (Task)
+    Aufgabe (Task) – kann zu einem Projekt gehören (Project)
+    Projekt (Project) – kann viele Aufgaben (Task) haben
+    Rollen:
+        Standard-User: Kann nur eigene Tasks bearbeiten.
+        Admin-User: Kann Aufgaben anderer Benutzer mit überfälligen Deadlines verwalten.
+        Hierfür wurde ein Feld role der Tabelle Benutzer (User) hinzugefügt und in der App ein entsprechender Enum angelegt.
+
+Deadline & Benachrichtigungen
+
+    Aufgaben besitzen ein Feld deadline (hier wurde Date verwendet).
+    Überfällige Aufgaben (deadline < now()) können mit dem Endpunkt /tasks/all/expired abgefragt werden.
+    Ein Event-Listener prüft bei Aktualisierung eines Task, ob das deadline-Datum abgelaufen ist und der Status nicht done ist. Ist das der Fall, wird eine Benachrichtigung (Notification) ausgelöst (Datenbankeintrag).
+    Hierfür wurde eine notifications Tabelle angelegt die von einem Frontend konsumiert werden könnte. Aus der Aufgabenstellung geht nicht hervor wie der Benutzer benachrichtigt werden soll.
+    Desweiteren wurde eine schedule eingerichtet die nach Datumswechsel alle Tasks auf Überfälligkeit prüft und ggf. DB einträge erzeugt.
+    Für Events wurde ein command eingerichtet:
+        php artisan event:task-expired
+        Hier kann nach migration und seeding ein event ausgelöst werden.
+
+Middleware
+
+    auth:sanctum: Authentifizierung über Sanctum.
+    admin: Prüft, ob der User Admin ist.
+    own.task: Prüft, ob der aktuelle Benutzer Besitzer der angefragten Task ist. (User)
+    expired.task: Prüft, ob der Benutzer berechtigt ist, einen abgelaufenen Task zu bearbeiten. (Admin)
+
+Validierung
+
+Die Validierungsregeln werden in Request-Klassen (z.B. TaskStoreRequest, TaskUpdateRequest) umgesetzt. 
+Wichtige Regeln:
+
+    Titel:
+        Erforderlich
+        Max. 255 Zeichen
+
+    Beschreibung:
+        Erforderlich
+
+    Status:
+        Erlaubte Werte: todo, in_progress, done (Enum)
+
+    Deadline:
+        Muss ein gültiges Datum in der Zukunft sein (Date)
+
+6. Tests
+
+Das Projekt enthält PHPUnit-Tests. Um die Tests auszuführen:
+    php artisan test
+
+Feature-Tests prüfen die API-Endpunkte inkl. Authentifizierung. (ControllerTests, RepositoryTests)
+Unit-Tests prüfen Services oder einzelne Logik-Bausteine. (EventTests, ListenerTests, PolicyTests, ServiceTests)
+
